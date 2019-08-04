@@ -12,7 +12,8 @@
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "vuedraggable": "^2.23.0"
+    "vuedraggable": "^2.23.0",
+    "bootstrap-vue": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
