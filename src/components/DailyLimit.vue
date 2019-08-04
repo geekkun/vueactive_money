@@ -124,12 +124,7 @@
             }
         },
         computed: {
-            // expect_payday(){
-            //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            //     if(this.expected_payday === undefined) {
-            //         this.expected_payday= this.today;
-            //     }
-            // }
+
         },
         filters: {
             currency_rub(amount) {
