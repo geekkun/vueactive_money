@@ -2,18 +2,38 @@
     <div>
         <b-container fluid>
             <b-row class="justify-content-md-center">
+                <div>
                     <b-col>
                         <div class="price-holder">
-                            <span>{{today}}</span>
-
-                        </div>
-                        <div class="price-holder">
-                            <span>{{expected_payday}}</span>
-                        </div>
-                         <div class="price-holder">
-                            <span>{{day}}</span>
+                        <span>
+                            {{days_left}} days:  {{money_left | currency_rub}}
+                        </span>
                         </div>
                     </b-col>
+                </div>
+                <div>
+                    <b-col>
+                        <div class="price-holder">
+                            <span>You can spend {{daily_limit | currency_rub}} today!</span>
+                            <span
+                                    class="label ml-2"
+                                    :class="difference >= 0 ? 'up' : 'down'">
+                            {{difference | pct}}
+                        </span>
+                        </div>
+                    </b-col>
+                </div>
+
+                <!--                <b-col>-->
+                <!--                    <div class="price-holder">-->
+                <!--                        <span>{{initial_daily_limit}}</span>-->
+                <!--                    </div>-->
+                <!--                </b-col>-->
+                <!--                <b-col>-->
+                <!--                    <div class="price-holder">-->
+                <!--                        <span>{{difference | pct}}</span>-->
+                <!--                    </div>-->
+                <!--                </b-col>-->
             </b-row>
         </b-container>
     </div>
@@ -21,45 +41,86 @@
 
 <script>
     import moment from 'moment-business-days'
+
     export default {
         name: "DailyLimit",
         props: {
+            //if known
             expected_payday: {
                 type: String,
             },
+            //set in contract
             days_to_pay: {
                 type: Number,
                 default: 7
             },
-            business_days:{
+            //calculations based only on business days
+            business_days: {
                 type: Boolean,
                 default: false
             },
-            always_late:{
+
+            //maybe change to number?
+            always_late: {
                 type: Boolean,
                 default: true
+            },
+
+            money_left: {
+                type: Number,
+                default: 12345
+            },
+
+            initial_cash: {
+                type: Number,
+                default: 30000
             }
+
         },
         data() {
             return {
                 // today: new Date().toISOString().split('T')[0],
                 today: new Date().toISOString().split('T')[0],
-                day: null
-            }},
+                payday: null,
+                days_left: null,
+                difference: null,
+                daily_limit: null,
+                previous_payday: null,
+                full_period_length: null,
+                initial_daily_limit: null,
+            }
+        },
         methods: {
-            expect_payday(){
-                let firstday = moment().startOf('month').format('YYYY-MM-DD')
-                let payday = null
-                if (this.business_days) {
-                     payday = moment(firstday, 'YYYY-MM-DD').businessAdd(this.days_to_pay).toISOString().split('T')[0]
-                } else{
-                    payday = moment(firstday, 'YYYY-MM-DD').add(this.days_to_pay, 'd').toISOString().split('T')[0]
+            calculate_payday() {
+                if (this.expected_payday === undefined) {
+                    let firstday = moment().startOf('month').format('YYYY-MM-DD');
+                    let payday = null;
+                    if (this.business_days) {
+                        payday = moment(firstday, 'YYYY-MM-DD').businessAdd(this.days_to_pay).toISOString().split('T')[0]
+                    } else {
+                        payday = moment(firstday, 'YYYY-MM-DD').add(this.days_to_pay, 'd').toISOString().split('T')[0]
+                    }
+                    if (this.always_late) {
+                        this.payday = moment(payday, 'YYYY-MM-DD').businessAdd(2).toISOString().split('T')[0]
+                    } else {
+                        this.payday = payday
+                    }
+                } else {
+                    this.payday = this.expected_payday
                 }
-                if (this.always_late){
-                    this.expected_payday = moment(payday, 'YYYY-MM-DD').businessAdd(1).toISOString().split('T')[0]
-                } else{
-                    this.expected_payday = payday
-                }
+                this.days_left = moment(this.payday).diff(moment(this.today), 'd');
+                this.previous_payday = moment(this.payday).subtract(1, 'months')
+                this.full_period_length = moment(this.payday).diff(this.previous_payday, 'd')
+
+            },
+            daily_money_limit() {
+                this.daily_limit = this.money_left / this.days_left;
+                this.initial_daily_limit = this.initial_cash / this.full_period_length;
+
+                let average = (this.daily_limit + this.initial_daily_limit) / 2
+                let diff = this.daily_limit - this.initial_daily_limit
+                this.difference = diff / average * 100
+
             }
         },
         computed: {
@@ -79,15 +140,8 @@
             },
         },
         mounted() {
-            // this.day = moment(this.today, 'YYYY-MM-DD').businessAdd(3).toISOString().split('T')[0]
-            // this.day =  moment(this.today, 'YYYY-MM-DD').format('YYYY-MM')
-            let firstday = moment().startOf('month').format('YYYY-MM-DD')
-            let payday = moment(firstday, 'YYYY-MM-DD').add(this.days_to_pay, 'd').toISOString().split('T')[0]
-            this.day = moment(payday, 'YYYY-MM-DD').nextBusinessDay().toISOString().split('T')[0]
-            // if(this.expected_payday === undefined) {
-            // this.expected_payday= this.today;}
-            this.expected_payday = payday
-            // this.expect_payday()
+            this.calculate_payday()
+            this.daily_money_limit()
         }
     }
 </script>
