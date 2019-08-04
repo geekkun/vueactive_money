@@ -9,13 +9,13 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+// import HelloWorld from '@/components/HelloWorld.vue'
 import DragPriorities from '@/components/DragPriorities.vue'
 import Currency from '@/components/Currency.vue'
 export default {
   name: 'home',
   components: {
-    HelloWorld,
+    // HelloWorld,
     DragPriorities,
     Currency
   }
