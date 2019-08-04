@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-container class="bv-example-row">
-            <b-row>
+        <b-container fluid>
+            <b-row class="justify-content-md-center">
                 <div v-for="(value, key) in rates" :key="key">
                     <b-col>
                         <div class="price-holder">
@@ -101,11 +101,9 @@
         },
         filters: {
             currency_rub(amount) {
-                // const amt = Number(amount);
                 return amount && `${amount.toLocaleString(undefined, {maximumFractionDigits: 2})}₽`
             },
             pct(amount) {
-                // const amt = Number(amount);
                 return amount && `${amount.toLocaleString(undefined, {maximumFractionDigits: 2})}%`
             },
         },
