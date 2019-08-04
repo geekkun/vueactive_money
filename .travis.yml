@@ -7,5 +7,5 @@ cache:
 script:
   - npm test
   - npm run build
-after_script:
-  - cat ./coverage/lcov.info | coveralls
+#after_script:
+#  - cat ./coverage/lcov.info | coveralls
