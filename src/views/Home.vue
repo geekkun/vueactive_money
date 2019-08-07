@@ -4,6 +4,7 @@
         <Currency></Currency>
         <DailyLimit></DailyLimit>
         <FreeCredit></FreeCredit>
+        <Income></Income>
         <!--        <DragPriorities></DragPriorities>-->
     </div>
 </template>
@@ -15,6 +16,7 @@
     import Currency from '@/components/Currency.vue'
     import DailyLimit from '@/components/DailyLimit.vue'
     import FreeCredit from '@/components/FreeCredit.vue'
+    import Income from '@/components/Income.vue'
 
     export default {
         name: 'home',
@@ -23,7 +25,8 @@
             // DragPriorities,
             Currency,
             DailyLimit,
-            FreeCredit
+            FreeCredit,
+            Income
         }
     }
 </script>

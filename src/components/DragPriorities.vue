@@ -24,10 +24,6 @@
                 myArray: this.categories.map((name, index) => {
                     return {name, order: index + 1, fixed: false};
                 }),
-                list2: [],
-                editable: true,
-                isDragging: false,
-                delayedDragging: false
             };
         },
         components: {
