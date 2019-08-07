@@ -8,7 +8,6 @@
     export default {
         name: "FreeCredit",
         props: {
-            //if known
             due_date: {
                 type: String,
             },
