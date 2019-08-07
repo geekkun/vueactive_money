@@ -5,11 +5,14 @@
 </template>
 
 <script>
+    import moment from 'moment-business-days'
+
     export default {
         name: "FreeCredit",
         props: {
             due_date: {
                 type: String,
+                default: '2019-08-14'
             },
 
             current_month_debt: {
@@ -25,7 +28,8 @@
         },
         data() {
             return {
-
+                today: new Date().toISOString().split('T')[0],
+                days_left: null
             }
         },
         methods: {
@@ -43,7 +47,7 @@
             },
         },
         mounted() {
-
+            this.days_left = moment(this.payday).diff(moment(this.today), 'd');
         }
     }
 </script>
