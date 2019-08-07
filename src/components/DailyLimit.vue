@@ -2,6 +2,9 @@
     <div>
         <b-container fluid>
             <b-row class="justify-content-md-center">
+                Daily Money
+            </b-row>
+            <b-row class="justify-content-md-center">
                 <div>
                     <b-col>
                         <div class="price-holder">
