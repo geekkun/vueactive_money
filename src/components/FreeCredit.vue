@@ -1,6 +1,30 @@
 <template>
     <div>
-
+        <b-container fluid>
+            <b-row class="justify-content-md-center">
+                <div>
+                    <b-col>
+                        <div class="price-holder">
+                        <span>
+                            {{days_left}} day<span v-if="days_left>1">s</span>:  {{money_left | currency_rub}}
+                        </span>
+                        </div>
+                    </b-col>
+                </div>
+                <div>
+                    <b-col>
+                        <div class="price-holder">
+                            <span>You can spend {{daily_limit | currency_rub}} today!</span>
+                            <span
+                                    :class="difference >= 0 ? 'up' : 'down'"
+                                    class="label ml-2">
+                            {{difference | pct}}
+                        </span>
+                        </div>
+                    </b-col>
+                </div>
+            </b-row>
+        </b-container>
     </div>
 </template>
 

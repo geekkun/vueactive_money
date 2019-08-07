@@ -6,7 +6,7 @@
                     <b-col>
                         <div class="price-holder">
                         <span>
-                            {{days_left}} days:  {{money_left | currency_rub}}
+                            {{days_left}} day<span v-if="days_left>1">s</span>:  {{money_left | currency_rub}}
                         </span>
                         </div>
                     </b-col>
@@ -23,17 +23,6 @@
                         </div>
                     </b-col>
                 </div>
-
-                <!--                <b-col>-->
-                <!--                    <div class="price-holder">-->
-                <!--                        <span>{{initial_daily_limit}}</span>-->
-                <!--                    </div>-->
-                <!--                </b-col>-->
-                <!--                <b-col>-->
-                <!--                    <div class="price-holder">-->
-                <!--                        <span>{{difference | pct}}</span>-->
-                <!--                    </div>-->
-                <!--                </b-col>-->
             </b-row>
         </b-container>
     </div>
@@ -109,7 +98,7 @@
                     this.payday = this.expected_payday
                 }
                 this.days_left = moment(this.payday).diff(moment(this.today), 'd');
-                this.previous_payday = moment(this.payday).subtract(1, 'months')
+                this.previous_payday = moment(this.payday).subtract(1, 'months');
                 this.full_period_length = moment(this.payday).diff(this.previous_payday, 'd')
 
             },
@@ -117,8 +106,8 @@
                 this.daily_limit = this.money_left / this.days_left;
                 this.initial_daily_limit = this.initial_cash / this.full_period_length;
 
-                let average = (this.daily_limit + this.initial_daily_limit) / 2
-                let diff = this.daily_limit - this.initial_daily_limit
+                let average = (this.daily_limit + this.initial_daily_limit) / 2;
+                let diff = this.daily_limit - this.initial_daily_limit;
                 this.difference = diff / average * 100
 
             }
@@ -135,7 +124,7 @@
             },
         },
         mounted() {
-            this.calculate_payday()
+            this.calculate_payday();
             this.daily_money_limit()
         }
     }
