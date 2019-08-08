@@ -2,7 +2,7 @@
     <div>
         <b-container fluid>
             <b-row class="justify-content-md-center">
-                Credit
+                <h3>Credit</h3>
             </b-row>
             <b-row class="justify-content-md-center">
                 <div>

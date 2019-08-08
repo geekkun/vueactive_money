@@ -2,7 +2,7 @@
     <div>
         <b-container fluid>
             <b-row class="justify-content-md-center">
-                Daily Money
+                <h3>Daily Money</h3>
             </b-row>
             <b-row class="justify-content-md-center">
                 <div>
@@ -40,6 +40,7 @@
             //if known
             expected_payday: {
                 type: String,
+                default: '2019-09-08'
             },
             //set in contract
             days_to_pay: {
@@ -60,7 +61,7 @@
 
             money_left: {
                 type: Number,
-                default: 12345
+                default: 28999
             },
 
             initial_cash: {

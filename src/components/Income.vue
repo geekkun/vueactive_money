@@ -2,75 +2,87 @@
     <div>
         <b-container fluid>
             <b-row class="justify-content-md-center">
-                <div class="col-1">
-                    <button @click="add" class="btn btn-secondary button">Add</button>
-                </div>
+                <h3>Income</h3>
+            </b-row>
+            <b-row class="justify-content-md-center">
 
-                <div class="col-7">
-                    <h3>Income {{ draggingInfo }}</h3>
+                <draggable @end="drag=false" @start="drag=true" v-model="myArray">
 
-                    <draggable :list="list" class="list-group" handle=".handle" tag="ul">
-                        <li
-                                :key="element.name"
-                                class="list-group-item"
-                                v-for="(element, idx) in list"
-                        >
-                            <i class="fa fa-align-justify handle"></i>
+                    <li
+                            :key="element.name"
+                            class="list-group-item"
+                            v-for="(element, idx) in myArray"
+                    >
+                        <font-awesome-icon icon="align-justify"/>
 
-                            <span class="text">{{ element.name }} </span>
+                        <span class="text">{{ element.name }} </span>
 
-                            <input class="form-control" type="text" v-model="element.text"/>
 
-                            <i @click="removeAt(idx)" class="fa fa-times close"></i>
-                        </li>
-                    </draggable>
-                </div>
+                        <input class="form-control" type="text" v-model="element.text"/>
+                        <span> {{element.text}}</span>
+                        <!--                        <font-awesome-icon @click="removeAt(idx)" class="close"></font-awesome-icon>-->
+                        <b-button @click="removeAt(idx)" variant="outline-success">-</b-button>
 
-                <rawDisplayer :value="list" class="col-3" title="List"/>
+                    </li>
+                    <br>
+
+                </draggable>
+
+            </b-row>
+            <b-row class="justify-content-md-center">
+                <!--                <li class="list-unstyled">-->
+                <input class="form-control" placeholder="Category Name" type="text" v-model="category_name"/>
+                <!--                        <font-awesome-icon icon="align-justify"/>-->
+                <b-button @click="add" v-if="category_name" variant="outline-success">+</b-button>
+                <!--                    </li>-->
             </b-row>
         </b-container>
     </div>
 </template>
 
 <script>
-    let id = 3;
-    import draggable from "vuedraggable";
+    import draggable from 'vuedraggable'
 
     export default {
-        name: "Income",
-        display: "Handle",
-        instruction: "Drag using the handle icon",
-        order: 5,
-        components: {
-            draggable
+        name: "DragPriorities",
+        props: {
+            categories: {
+                // default: () => ['Daily Spending', 'Taxes', 'Flat', 'Savings'],
+                default: () => [
+                    {name: "Salary", text: "", id: 0},
+                    {name: "Freelance 1", text: "", id: 1},
+                    {name: "Freelance 2", text: "", id: 2},
+                    {name: "Investments", text: "", id: 3}
+                ],
+                type: Array,
+            },
         },
         data() {
             return {
-                list: [
-                    {name: "John", text: "", id: 0},
-                    {name: "Joao", text: "", id: 1},
-                    {name: "Jean", text: "", id: 2}
-                ],
-                dragging: false
+                myArray: this.categories,
+                id: this.categories.slice(-1)[0]['id'] + 1,
+                category_name: null
             };
         },
-        computed: {
-            draggingInfo() {
-                return this.dragging ? "under drag" : "";
-            }
+        components: {
+            draggable,
         },
         methods: {
             removeAt(idx) {
-                this.list.splice(idx, 1);
+                this.myArray.splice(idx, 1);
             },
             add: function () {
-                id++;
-                this.list.push({name: "Juan " + id, id, text: ""});
+                if (this.category_name) {
+                    this.id++;
+                    this.myArray.push({name: this.category_name, text: "", id: this.id});
+                }
             }
         }
-    };
+    }
 </script>
+
 <style scoped>
+
     .button {
         margin-top: 35px;
     }
@@ -90,6 +102,7 @@
     input {
         display: inline-block;
         width: 50%;
+        text-align: center;
     }
 
     .text {

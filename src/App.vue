@@ -4,7 +4,8 @@
 <!--      <router-link to="/">Home</router-link> |-->
 <!--      <router-link to="/about">About</router-link>-->
 <!--    </div>-->
-      <!--      <font-awesome-icon icon="user-secret" />-->
+      <!--            <font-awesome-icon icon="align-justify" />-->
+      <!--      <font-awesome-icon icon="handle"/>-->
     <router-view/>
   </div>
 </template>
