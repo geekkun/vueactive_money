@@ -6,9 +6,9 @@
             </b-row>
             <b-row class="justify-content-md-center">
                 <div>
-                    <b-col>
+                    <b-col v-if="days_left>0">
                         <div class="price-holder">
-                        <span>
+                        <span >
                             {{days_left}} day<span v-if="days_left>1">s</span>:  {{money_left | currency_rub}}
                         </span>
                         </div>
@@ -16,13 +16,16 @@
                 </div>
                 <div>
                     <b-col>
-                        <div class="price-holder">
+                        <div class="price-holder" v-if="daily_limit>0">
                             <span>You can spend {{daily_limit | currency_rub}} today!</span>
                             <span
                                     class="label ml-2"
                                     :class="difference >= 0 ? 'up' : 'down'">
                             {{difference | pct}}
-                        </span>
+                            </span>
+                        </div>
+                        <div class="price-holder" v-else>
+                            <span>You can't spend money today!</span>
                         </div>
                     </b-col>
                 </div>
@@ -116,9 +119,7 @@
 
             }
         },
-        computed: {
-
-        },
+        computed: {},
         filters: {
             currency_rub(amount) {
                 return amount && `${amount.toLocaleString(undefined, {maximumFractionDigits: 2})}₽`
